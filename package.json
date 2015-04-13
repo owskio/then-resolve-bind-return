@@ -1,0 +1,11 @@
+{
+  "name": "owski-expose",
+  "version": "0.0.1",
+  "description": "Wrapping up that imperitive rubbish into an abstraction",
+  "main": "expose.js",
+  "scripts": {
+    "test": "mocha *.mocha.js"
+  },
+  "author": "Ted Cackowski Jr",
+  "license": "MIT"
+}
