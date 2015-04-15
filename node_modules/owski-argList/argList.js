@@ -1,11 +1,14 @@
 
 module.exports = function(fn){
-  //TODO: Remove comments
+  //TODO: Remove comments from within string.
   var args = fn
   .toString()
   .split('{')[0]
+  .split(')')[0]
+  .split('(')[1]
   .replace(' ','')
-  .match(/[^,\(\)\s]+/g);
-  args.shift();
+  .split(',');
+  // .match(/[^,\(\)]+/g);
+  // args.shift();
   return args;
 };

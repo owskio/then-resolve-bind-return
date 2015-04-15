@@ -4,7 +4,7 @@
   "description": "Wrapping up that imperitive rubbish into an abstraction",
   "main": "expose.js",
   "scripts": {
-    "test": "mocha *.mocha.js"
+    "test": "mocha tests/*.mocha.js"
   },
   "author": "Ted Cackowski Jr",
   "license": "MIT"
