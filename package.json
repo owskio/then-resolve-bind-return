@@ -7,5 +7,6 @@
     "test": "mocha tests/*.mocha.js"
   },
   "author": "Ted Cackowski Jr",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

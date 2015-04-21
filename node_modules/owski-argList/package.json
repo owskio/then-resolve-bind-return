@@ -4,7 +4,7 @@
   "description": "reflection for functions",
   "main": "argList.js",
   "scripts": {
-    "test": "mocha *.mocha.js"
+    "test": "mocha tests/*.mocha.js"
   },
   "keywords": [
     "decompilation",
