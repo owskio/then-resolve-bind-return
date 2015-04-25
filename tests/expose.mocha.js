@@ -1,6 +1,6 @@
 
 require('must');
-var expose = require('owski-expose');
+var expose = require('../expose');
 
 describe('expose',function(){
   it('should make modules less imperitive',function(done){

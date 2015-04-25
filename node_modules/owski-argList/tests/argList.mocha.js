@@ -1,6 +1,6 @@
 
 require('must');
-var argList = require('owski-argList');
+var argList = require('../argList');
 
 describe('argList',function(){
   it('gives a list of desired arguments',function(){
