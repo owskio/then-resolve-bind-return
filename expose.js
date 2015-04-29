@@ -1,7 +1,7 @@
 
 var
 
-argList = require('owski-argList'),
+argList = require('owski-arglist'),
 
 mport = function(obj,fn){
   if (typeof(fn) === 'undefined') {
