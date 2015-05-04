@@ -1,6 +1,6 @@
 
 require('must');
-var expose = require('../expose');
+var expose = require('../src/expose');
 
 describe('expose',function(){
   it('should make modules less imperitive',function(done){

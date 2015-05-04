@@ -1,12 +1,13 @@
 
+//The beginnings of a pattern matching module maybe?
+
 var
+argList = require('owski-arglist');
 
-argList = require('owski-arglist'),
-
-mport = function(obj,fn){
+objectKeys = function(obj,fn){
   if (typeof(fn) === 'undefined') {
     return function(fn2){
-      return mport(obj,fn2);
+      return objectKeys(obj,fn2);
     };
   } else {
     var results = [],
@@ -16,11 +17,8 @@ mport = function(obj,fn){
     }
     return fn.apply(this,results);
   }
-},
-expose = function(mod,obj){
-  obj.mport = mport(obj);
-  mod.exports = obj;
-  return obj;
-};
+}
 
-module.exports = expose;
+module.exports = {
+  objectKeys: objectKeys
+};

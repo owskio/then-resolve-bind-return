@@ -1,15 +1,15 @@
 {
   "name": "owski-expose",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Wrapping that imperitive `module.exports` rubbish into an abstraction",
-  "main": "expose.js",
+  "main": "src/expose.js",
   "scripts": {
     "test": "mocha tests/*.mocha.js"
   },
   "author": "Ted Cackowski Jr",
   "license": "MIT",
   "dependencies": {
-    "owski-arglist": "0.0.6"
+    "owski-arglist": "~0.0.6"
   },
   "devDependencies": {
     "must": "^0.12.0"
