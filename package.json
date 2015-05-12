@@ -9,7 +9,7 @@
   "author": "Ted Cackowski Jr",
   "license": "MIT",
   "dependencies": {
-    "owski-arglist": "~0.0.6"
+    "owski-arglist": "*"
   },
   "devDependencies": {
     "must": "^0.12.0"
