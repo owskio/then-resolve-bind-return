@@ -1,20 +1,31 @@
 
 require('must');
-var expose = require('../src/expose');
+var Promise = require('bluebird');
+var br = require('../src/bindresult');
+var bind = br.bind;
+var result = br.result;
 
-describe('expose',function(){
-  it('should make modules less imperitive',function(done){
-    var
-    myModule = {
-      a:1
-    };
-    expose(myModule,{
-      b:2,
-      c:3
-    });
-    myModule.exports.mport(function(b,c){
-      (b + c).must.be(5);
-      done();
-    });
+describe('bindResult',function(){
+  it('should allow the binding of multiple async primitives ',function(done){
+      var async1 = function(){
+          return Promise.resolve('Hello');
+      };
+      var async2 = function(){
+          return Promise.resolve(' world!');
+      };
+      var myModule = 
+                        bind(async1,function(hello){
+                        console.log('hello: ',hello);
+          return bind(async2,function(world){
+              console.log('world: ',world);
+          return result(hello + world);
+          });});
+      
+      bind(myModule,function(unwrapped){
+          console.log('unwrapped: ',unwrapped);
+          unwrapped.must.eql('Hello world!');
+          done();
+          return result('Must have passed');
+      })();
   });
 });

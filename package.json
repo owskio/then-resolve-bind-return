@@ -4,11 +4,12 @@
   "description": "Wrapping that imperitive `module.exports` rubbish into an abstraction",
   "main": "src/expose.js",
   "scripts": {
-    "test": "mocha tests/*.mocha.js"
+    "test": "mocha tests/*.mocha.js 2>&1 | less"
   },
   "author": "Ted Cackowski Jr",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.4.1",
     "owski-arglist": "*"
   },
   "devDependencies": {
