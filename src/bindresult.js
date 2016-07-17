@@ -1,6 +1,6 @@
 
 
-//assume a .thenable as the 'monadic' value
+//assume a .thenable as the 'monadicFn' return value
 var bind = function(monadicFn,callback){
     return function(input){
         var self = this;
