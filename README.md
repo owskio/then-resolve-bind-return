@@ -1,3 +1,2 @@
 
-What is it with JavaScript that attracts C developers like leprechauns to gold?  
-Give me thunks, and continuations, and not required dereferencing statements.
+"Exposes" the parts of an npm module by "duck-punching" an 'mport' method onto the exports object.
