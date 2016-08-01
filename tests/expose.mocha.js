@@ -13,9 +13,10 @@ var async2 = function(){
 };
 
 describe('bindResult',function(){
+    
   it('should allow the binding of multiple async primitives ',function(done){
       var myModule = 
-                        bind(async1,function(hello){
+                 bind(async1,function(hello){
           return bind(async2,function(world){
           return result(hello + world);
           });});
@@ -26,19 +27,52 @@ describe('bindResult',function(){
           return result('Meh, must have passed');
       })();
   });
+    
   it('should obey right identity',function(done){
     var shouldSayHello = 
-                  bind(async1,function(hello){
+           bind(async1,function(hello){
     return result(hello);
     });
     var shouldAlsoHello = async1;
       
     var test =
-                  bind(shouldSayHello,function(hello){
+           bind(shouldSayHello,function(hello){
     return bind(shouldAlsoHello,function(helloAgain){
         hello.must.eql(helloAgain);
         done();
         return result('Meh, must have passed');
     });})();
   });
+
+  it('should obey left identity',function(done){
+
+    var hello = 'hello';
+    var yieldHello = result(hello); 
+    var appendWorld = function(hello){
+        console.log('hello: ',hello);
+        return result(hello + ' world!');
+    };
+      
+    var helloWorldMaybe = bind(yieldHello,appendWorld);
+
+    console.log('helloWorldMaybe: ',helloWorldMaybe);
+    //var test = helloWorldMaybe();
+    //console.log('test: ',test);
+      
+    var helloWorldDefinitely = appendWorld(hello);
+      
+    var assert = 
+           bind(helloWorldMaybe,function(helloWorldMaybe){
+    return bind(appendWorld(hello),function(helloWorldDefinitely){
+
+        console.log('helloWorldDefinitely: ',helloWorldDefinitely);
+        console.log('helloWorldmaybe: ',helloWorldMaybe);
+      
+        helloWorldDefinitely.must.eql(helloWorldMaybe);
+        done();
+        return result('Meh, must have passed');
+    });})();
+
+  });
+
 });
