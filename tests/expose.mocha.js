@@ -7,6 +7,12 @@ var result = br.result;
 
 var helloPromise = result('Hello');
 var againPromise = result(' again!');
+var addBeautiful = function(hello){
+  return result(hello + ' beautiful ');
+};
+var addWorld = function(helloBeautiful){
+  return result(helloBeautiful + ' world!');
+};
 
 describe('bindResult',function(){
     
@@ -43,15 +49,13 @@ describe('bindResult',function(){
   it('should obey left identity',function(done){
     //https://wiki.haskell.org/Monad_laws
       
-    //this is the "f" in the "f x" mentioned, but in a 'monadic' context
-    var appendWorld = function(hello){
-      return result(hello + ' world!');
-    };
+    var message = 'Goodbye';
+    var helloWorldMaybe = bind(result(message),addWorld);
       
-    var helloWorldMaybe = bind(result('hello'),appendWorld);
-      
+    //addWorld is the "f" in the "f x" mentioned in the link above,
+    //but in a 'monadic' context
     //Here, we apply "f" to "x", yielding a monad/promise
-    var helloWorldDefinitely = appendWorld('hello');
+    var helloWorldDefinitely = addWorld(message);
       
     //Bind everything together for unit testing purposes
     var assert = 
@@ -64,12 +68,6 @@ describe('bindResult',function(){
 
   it('should obey associativity',function(done){
     //https://wiki.haskell.org/Monad_laws
-    var addBeautiful = function(hello){
-      return result(hello + ' beautiful ');
-    };
-    var addWorld = function(helloBeautiful){
-      return result(helloBeautiful + ' world!');
-    };
 
     var leftAssociative = bind(bind(helloPromise,addBeautiful),addWorld);
     var rightAssociative = 
