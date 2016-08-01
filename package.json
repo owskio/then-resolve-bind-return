@@ -1,16 +1,15 @@
 {
-  "name": "owski-expose",
-  "version": "0.0.6",
-  "description": "Wrapping that imperitive `module.exports` rubbish into an abstraction",
-  "main": "src/expose.js",
+  "name": "bindresult",
+  "version": "0.0.1",
+  "description": "Shows the correspondence between promises with assimilation and a simple concurrency monad instance.",
+  "main": "src/bindresult.js",
   "scripts": {
     "test": "mocha tests/*.mocha.js 2>&1 | less"
   },
-  "author": "Ted Cackowski Jr",
+  "author": "Ted Cackowski Jr.",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.4.1",
-    "owski-arglist": "*"
+    "bluebird": "^3.4.1"
   },
   "devDependencies": {
     "must": "^0.12.0"
@@ -20,19 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/theodorecackowski/owski-expose.git"
+    "url": "https://github.com/theodorecackowski/bindresult.git"
   },
   "keywords": [
-    "expose",
-    "export",
-    "exports",
-    "module",
-    "import",
-    "pattern",
-    "matching"
+    "promise",
+    "monad",
+    "assimilation"
   ],
   "bugs": {
-    "url": "https://github.com/theodorecackowski/owski-expose/issues"
+    "url": "https://github.com/theodorecackowski/bindresult/issues"
   },
-  "homepage": "https://github.com/theodorecackowski/owski-expose"
+  "homepage": "https://github.com/theodorecackowski/bindresult"
 }

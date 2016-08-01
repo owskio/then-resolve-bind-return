@@ -1,4 +1,5 @@
 
+//For the fluent assertion monkey patches
 require('must');
 
 var br     = require('../src/bindresult');
@@ -9,14 +10,22 @@ var result = br.result;
 var helloPromise = result('Hello');
 var againPromise = result(' again!');
 var addBeautiful = function(hello){
+  //Don't forget, this is equivalent to:
+  //return Promise.resolve(hello + ' beautiful ');
   return result(hello + ' beautiful ');
 };
 var addWorld = function(helloBeautiful){
   return result(helloBeautiful + ' world!');
 };
 
+//Now we try to show that this concurency monad instance (bind,result)
+//is actually a valid monad instance by showing that it satisfies the
+//monad laws.
+
+//More info on the monad laws can be found here: 
+//https://wiki.haskell.org/Monad_laws
+
 describe('bindResult',function(){
-  //https://wiki.haskell.org/Monad_laws
     
   it('should obey right identity',function(done){
      
@@ -28,6 +37,9 @@ describe('bindResult',function(){
            bind(helloPromise,function(hello){
     return bind(helloRedundant,function(helloPerhaps){
         hello.must.eql(helloPerhaps);
+        //Since act isn't used in this test, the line below is only useful in that it
+        //  1) maintains the integrity of the monadic code by making sure `act` is a promise, and
+        //  2) calls the done() function, which signals to mocha that our asynchronous test is done
         return result(done());
     });});
   });
