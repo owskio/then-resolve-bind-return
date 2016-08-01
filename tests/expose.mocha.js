@@ -54,19 +54,12 @@ describe('bindResult',function(){
     };
       
     var helloWorldMaybe = bind(yieldHello,appendWorld);
-
-    console.log('helloWorldMaybe: ',helloWorldMaybe);
-    //var test = helloWorldMaybe();
-    //console.log('test: ',test);
       
     var helloWorldDefinitely = appendWorld(hello);
       
     var assert = 
            bind(helloWorldMaybe,function(helloWorldMaybe){
-    return bind(appendWorld(hello),function(helloWorldDefinitely){
-
-        console.log('helloWorldDefinitely: ',helloWorldDefinitely);
-        console.log('helloWorldmaybe: ',helloWorldMaybe);
+    return bind(helloWorldDefinitely,function(helloWorldDefinitely){
       
         helloWorldDefinitely.must.eql(helloWorldMaybe);
         done();
