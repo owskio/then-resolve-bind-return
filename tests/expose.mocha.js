@@ -1,8 +1,8 @@
 
 require('must');
 
-var br = require('../src/bindresult');
-var bind = br.bind;
+var br     = require('../src/bindresult');
+var bind   = br.bind;
 var result = br.result;
 
 //Test setup utilities
