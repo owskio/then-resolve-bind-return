@@ -16,11 +16,10 @@ var addWorld = function(helloBeautiful){
 };
 
 describe('bindResult',function(){
+  //https://wiki.haskell.org/Monad_laws
     
   it('should obey right identity',function(done){
-    //https://wiki.haskell.org/Monad_laws
      
-    //arrange:
     //helloPromise would be the "m" mentioned in the link above
     //helloRedundant is the "m >>= return" mentioned in the link above
     var helloRedundant = bind(helloPromise,result);
@@ -28,16 +27,13 @@ describe('bindResult',function(){
     var act =
            bind(helloPromise,function(hello){
     return bind(helloRedundant,function(helloPerhaps){
-        //assert:
         hello.must.eql(helloPerhaps);
         return result(done());
     });});
   });
 
   it('should obey left identity',function(done){
-    //https://wiki.haskell.org/Monad_laws
       
-    //arrange:
     var message = 'Goodbye';
     var helloWorldMaybe = bind(result(message),addWorld);
       
@@ -46,20 +42,16 @@ describe('bindResult',function(){
     //Here, we apply "f" to "x", yielding a monad/promise
     var helloWorldDefinitely = addWorld(message);
       
-    //Bind everything together for unit testing purposes
     var act = 
            bind(helloWorldMaybe,function(helloWorldMaybe){
     return bind(helloWorldDefinitely,function(helloWorldDefinitely){
-        //assert:
         helloWorldDefinitely.must.eql(helloWorldMaybe);
         return result(done());
     });});
   });
 
   it('should obey associativity',function(done){
-    //https://wiki.haskell.org/Monad_laws
-
-    //arrange:
+    
     var leftAssociative = bind(bind(helloPromise,addBeautiful),addWorld);
     var rightAssociative = 
            bind(helloPromise,function(hello){
@@ -70,7 +62,6 @@ describe('bindResult',function(){
     var act = 
            bind(leftAssociative,function(firstGreeting){
     return bind(rightAssociative,function(secondGreeting){
-        //assert:
         firstGreeting.must.eql(secondGreeting);
         return result(done());
     });});
