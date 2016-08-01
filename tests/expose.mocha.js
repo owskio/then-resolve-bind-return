@@ -5,20 +5,20 @@ var br = require('../src/bindresult');
 var bind = br.bind;
 var result = br.result;
 
-var p1 = Promise.resolve('trying ');
-var p2 = Promise.resolve('again!');
+var helloPromise = result('Hello');
+var againPromise = result(' again!');
 
 describe('bindResult',function(){
     
     it('should nominally bind existing promises',function(done){
         var nominalCase = 
-               bind(p1,function(trying){
-        return bind(p2,function(again){
-        return result(trying + again);
+               bind(helloPromise,function(hello){
+        return bind(againPromise,function(again){
+        return result(hello + again);
         });});
         
-        bind(nominalCase,function(unwrapped){
-            unwrapped.must.eql('trying again!');
+        bind(nominalCase,function(greeting){
+            greeting.must.eql('Hello again!');
             return result(done());
         });
         
@@ -27,17 +27,15 @@ describe('bindResult',function(){
   it('should obey right identity',function(done){
     //https://wiki.haskell.org/Monad_laws
      
-    //And this would be the "m" mentioned in the link above
-    var tyingPromise = p1;
-      
+    //helloPromise would be the "m" mentioned in the link above
     //This one is the "m >>= return" mentioned in the link above
-    var tryingRedundant = bind(p1,result);
+    var helloRedundant = bind(helloPromise,result);
       
     //Bind everything together just to make the assertion
     var assertion =
-           bind(tyingPromise,function(trying){
-    return bind(tryingRedundant,function(tryingResult){
-        trying.must.eql(tryingResult);
+           bind(helloPromise,function(hello){
+    return bind(helloRedundant,function(helloPerhaps){
+        hello.must.eql(helloPerhaps);
         return result(done());
     });});
   });
@@ -66,7 +64,6 @@ describe('bindResult',function(){
 
   it('should obey associativity',function(done){
     //https://wiki.haskell.org/Monad_laws
-    var hello = result('Hello'); 
     var addBeautiful = function(hello){
       return result(hello + ' beautiful ');
     };
@@ -74,9 +71,9 @@ describe('bindResult',function(){
       return result(helloBeautiful + ' world!');
     };
 
-    var leftAssociative = bind(bind(hello,addBeautiful),addWorld);
+    var leftAssociative = bind(bind(helloPromise,addBeautiful),addWorld);
     var rightAssociative = 
-           bind(hello,function(hello){
+           bind(helloPromise,function(hello){
     return bind(addBeautiful(hello),addWorld);
     });
       
@@ -87,7 +84,5 @@ describe('bindResult',function(){
         firstGreeting.must.eql(secondGreeting);
         return result(done());
     });});
-
   });
-
 });
