@@ -16,31 +16,18 @@ var addWorld = function(helloBeautiful){
 
 describe('bindResult',function(){
     
-    it('should nominally bind existing promises',function(done){
-        var nominalCase = 
-               bind(helloPromise,function(hello){
-        return bind(againPromise,function(again){
-        return result(hello + again);
-        });});
-        
-        bind(nominalCase,function(greeting){
-            greeting.must.eql('Hello again!');
-            return result(done());
-        });
-        
-    });
-    
   it('should obey right identity',function(done){
     //https://wiki.haskell.org/Monad_laws
      
+    //arrange:
     //helloPromise would be the "m" mentioned in the link above
-    //This one is the "m >>= return" mentioned in the link above
+    //helloRedundant is the "m >>= return" mentioned in the link above
     var helloRedundant = bind(helloPromise,result);
       
-    //Bind everything together just to make the assertion
-    var assertion =
+    var act =
            bind(helloPromise,function(hello){
     return bind(helloRedundant,function(helloPerhaps){
+        //assert:
         hello.must.eql(helloPerhaps);
         return result(done());
     });});
@@ -49,6 +36,7 @@ describe('bindResult',function(){
   it('should obey left identity',function(done){
     //https://wiki.haskell.org/Monad_laws
       
+    //arrange:
     var message = 'Goodbye';
     var helloWorldMaybe = bind(result(message),addWorld);
       
@@ -58,9 +46,10 @@ describe('bindResult',function(){
     var helloWorldDefinitely = addWorld(message);
       
     //Bind everything together for unit testing purposes
-    var assert = 
+    var act = 
            bind(helloWorldMaybe,function(helloWorldMaybe){
     return bind(helloWorldDefinitely,function(helloWorldDefinitely){
+        //assert:
         helloWorldDefinitely.must.eql(helloWorldMaybe);
         return result(done());
     });});
@@ -69,6 +58,7 @@ describe('bindResult',function(){
   it('should obey associativity',function(done){
     //https://wiki.haskell.org/Monad_laws
 
+    //arrange:
     var leftAssociative = bind(bind(helloPromise,addBeautiful),addWorld);
     var rightAssociative = 
            bind(helloPromise,function(hello){
@@ -76,9 +66,10 @@ describe('bindResult',function(){
     });
       
     //Bind everything together for unit testing purposes
-    var assert = 
+    var act = 
            bind(leftAssociative,function(firstGreeting){
     return bind(rightAssociative,function(secondGreeting){
+        //assert:
         firstGreeting.must.eql(secondGreeting);
         return result(done());
     });});
