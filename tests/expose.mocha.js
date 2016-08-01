@@ -5,58 +5,68 @@ var br = require('../src/bindresult');
 var bind = br.bind;
 var result = br.result;
 
-var async1 = function(){
-    return Promise.resolve('Hello');
-};
-var async2 = function(){
-    return Promise.resolve(' world!');
-};
+var p1 = Promise.resolve('trying ');
+var p2 = Promise.resolve('again!');
 
 describe('bindResult',function(){
     
-  it('should allow the binding of multiple async primitives ',function(done){
-      var myModule = 
-                 bind(async1,function(hello){
-          return bind(async2,function(world){
-          return result(hello + world);
-          });});
-      
-      bind(myModule,function(unwrapped){
-          unwrapped.must.eql('Hello world!');
-          done();
-          return result('Meh, must have passed');
-      })();
-  });
+    it('should bind existing promises',function(done){
+        //Just a simple 'nominal test case'
+        var myModule = 
+               bind(p1,function(trying){
+        return bind(p2,function(again){
+        return result(trying + again);
+        });});
+        
+        bind(myModule,function(unwrapped){
+            unwrapped.must.eql('trying again!');
+            done();
+            return result('Meh, must have passed');
+        });
+        
+    });
     
   it('should obey right identity',function(done){
-    var shouldSayHello = 
-           bind(async1,function(hello){
-    return result(hello);
+    //https://wiki.haskell.org/Monad_laws
+     
+    var shouldSayTrying = 
+           bind(p1,function(trying){
+      return result(trying);
     });
-    var shouldAlsoHello = async1;
       
+    //This one is the "m >>= return" mentioned in the link above
+    var shouldSayTryingAgain = bind(p1,result);
+      
+    //And this would be the "m" mentioned in the link above
+    var shouldAlsoSayTrying = p1;
+      
+    //Bind everything together just to make the assertion
     var test =
-           bind(shouldSayHello,function(hello){
-    return bind(shouldAlsoHello,function(helloAgain){
-        hello.must.eql(helloAgain);
+           bind(shouldSayTrying,function(tryingLambdaResult){
+    return bind(shouldSayTryingAgain,function(tryingResult){
+    return bind(shouldAlsoSayTrying,function(trying){
+        trying.must.eql(tryingResult);
+        trying.must.eql(tryingLambdaResult);
+        tryingResult.must.eql(tryingLambdaResult);
         done();
-        return result('Meh, must have passed');
-    });})();
+        return result('Meh, no exceptions, must have passed');
+    });});});
   });
 
   it('should obey left identity',function(done){
-
-    var hello = 'hello';
-    var yieldHello = result(hello); 
+    //https://wiki.haskell.org/Monad_laws
+      
+    //this is the "f" in the "f x" mentioned, but in a 'monadic' context
     var appendWorld = function(hello){
-        console.log('hello: ',hello);
-        return result(hello + ' world!');
+      return result(hello + ' world!');
     };
       
-    var helloWorldMaybe = bind(yieldHello,appendWorld);
+    var helloWorldMaybe = bind(result('hello'),appendWorld);
       
-    var helloWorldDefinitely = appendWorld(hello);
+    //Here, we apply "f" to "x", yielding a monad/promise
+    var helloWorldDefinitely = appendWorld('hello');
       
+    //Bind everything together for unit testing purposes
     var assert = 
            bind(helloWorldMaybe,function(helloWorldMaybe){
     return bind(helloWorldDefinitely,function(helloWorldDefinitely){
@@ -64,7 +74,46 @@ describe('bindResult',function(){
         helloWorldDefinitely.must.eql(helloWorldMaybe);
         done();
         return result('Meh, must have passed');
-    });})();
+    });});
+  });
+
+    
+  it('should obey associativity',function(done){
+    //https://wiki.haskell.org/Monad_laws
+      
+    var addHello = Promise.resolve('Hello'); 
+      
+    var addBeautiful = function(hello){
+      console.log('returning hello beautiful: ',hello);
+      return Promise.resolve(hello + ' beautiful ');
+    };
+    var addWorld = function(helloBeautiful){
+      console.log('returning hello beautiful world: ',helloBeautiful);
+      return Promise.resolve(helloBeautiful + ' world!');
+    };
+
+    var firstTwo = bind(addHello,addBeautiful);
+      console.log('firstTwo: ',firstTwo);
+    var leftAssociative = 
+        bind(
+            firstTwo,
+            addWorld
+        );
+    var rightAssociative = 
+        bind(addHello,function(hello){
+            return bind(addBeautiful(hello),addWorld);
+        });
+      
+    //Bind everything together for unit testing purposes
+    var assert = 
+           bind(leftAssociative,function(firstGreeting){
+               console.log('firstGreeting: ',firstGreeting);
+    return bind(rightAssociative,function(secondGreeting){
+      
+        firstGreeting.must.eql(secondGreeting);
+        done();
+        return result('Meh, must have passed');
+    });});
 
   });
 
