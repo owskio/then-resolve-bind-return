@@ -7,7 +7,7 @@ var Promise = require('bluebird');
 
 //Here, we basically rip the '.then' off of the
 //prototype, and use it as a simple function.
-var bind = function bind(thenableIn,callback){
+var bind = function (thenableIn,callback){
     return thenableIn.then(callback);
 };
 
