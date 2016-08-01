@@ -1,10 +1,11 @@
 
 require('must');
-var Promise = require('bluebird');
+
 var br = require('../src/bindresult');
 var bind = br.bind;
 var result = br.result;
 
+//Test setup utilities
 var helloPromise = result('Hello');
 var againPromise = result(' again!');
 var addBeautiful = function(hello){
@@ -41,7 +42,7 @@ describe('bindResult',function(){
     var helloWorldMaybe = bind(result(message),addWorld);
       
     //addWorld is the "f" in the "f x" mentioned in the link above,
-    //but in a 'monadic' context
+    //but in a 'monadic' context.
     //Here, we apply "f" to "x", yielding a monad/promise
     var helloWorldDefinitely = addWorld(message);
       
