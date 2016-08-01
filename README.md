@@ -1,9 +1,10 @@
 
-# Shows the correspondence between promises supporting 'assimilation' and a simple concurrency monad
+## Shows the correspondence between promises supporting 'assimilation' and a simple concurrency monad
+---
 
 1) Assume you have a JavaScript promise library.  
 2) Assume that said promise libarary supports 'promise assimilation'.  
-That is, when in a .then callback, you return a promise, thereby replacing the old one.  
+(That is, when in a .then callback, you return a promise, thereby replacing the old one.)  
   
 Then, you could start writing *monadic* code like this:  
 ```javascript
