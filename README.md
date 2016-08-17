@@ -1,11 +1,11 @@
 
 ## Shows the correspondence between promises supporting 'assimilation' and a simple concurrency monad
----
 
-1) Assume you have a JavaScript promise library.  
-2) Assume that said promise libarary supports 'promise assimilation'.  
-(That is, when in a .then callback, you return a promise, thereby replacing the old one.)  
-  
+Assume you have a JavaScript promise libarary which supports 'promise assimilation'.  
+*That is, when in a .then callback, you return a promise, thereby replacing the old one.*  
+Then, this repository's unit tests show that the (Promise.prototype.then,Promise.resolve) methods  
+satisfy the same monad laws that (bind,return) do, proving they are an instance of a monad.
+
 Then, you could start writing *monadic* code like this:  
 ```javascript
 var myUltimatePromise = 
