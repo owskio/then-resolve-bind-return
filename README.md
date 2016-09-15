@@ -1,11 +1,11 @@
 
-## Shows that any promise lib with 'assimilation' is an instance of Monad t
----
+## Shows that promise libs with assimilation implement an instance of Monad t
 
-1) Assume you have a JavaScript promise library.  
-2) Assume that said promise libarary supports 'promise assimilation'.  
-(That is, when in a .then callback, you return a promise, thereby replacing the old one.)  
-  
+Assume you have a JavaScript promise libarary which supports 'promise assimilation'.  
+*That is, in a `p1.then` callback, you return a new promise `p3`, replacing the old `p2 = p1.then(...)` one.*  
+Then, this repository's unit tests show that the (Promise.prototype.then,Promise.resolve) methods  
+satisfy the same monad laws (bind,return) do, proving you can use them to write monadic code.
+
 Then, you could start writing *monadic* code like this:  
 ```javascript
 var myUltimatePromise = 
