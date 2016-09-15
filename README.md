@@ -1,5 +1,5 @@
 
-## Shows the correspondence between promises supporting 'assimilation' and a simple concurrency monad
+## Shows that any promise lib with 'assimilation' is an instance of Monad t
 ---
 
 1) Assume you have a JavaScript promise library.  
@@ -53,3 +53,4 @@ bind(myUltimatePromise,function(myUltimateResult){
   // ... blah blah blah ...
 });
 ``` 
+
